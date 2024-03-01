@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "ci:rename": "sh ./__scripts/rename.sh"
+    "ci:rename": "sh ./__scripts/rename.sh",
+    "ci:kill": "sh ./__scripts/killServer.sh"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.16",
