@@ -1,3 +1,7 @@
+# Firebase Config Files
+google-services.json
+GoogleService-Info.plist
+
 # OSX
 #
 .DS_Store
