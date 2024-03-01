@@ -9,7 +9,8 @@
     "start": "react-native start",
     "test": "jest",
     "ci:rename": "sh ./__scripts/rename.sh",
-    "ci:kill": "sh ./__scripts/killServer.sh"
+    "ci:kill": "sh ./__scripts/killServer.sh",
+    "ci:install": "yarn && npx pod-install"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.3.0",

@@ -1,3 +1,8 @@
+# Deploy
+keystore.properties
+upload-keystore.jks
+app-release.aab
+
 # Firebase Config Files
 google-services.json
 GoogleService-Info.plist
