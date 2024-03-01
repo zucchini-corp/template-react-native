@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.tomorrowdiary"
+    namespace "com.zucchini.template"
     defaultConfig {
-        applicationId "com.tomorrowdiary"
+        applicationId "com.zucchini.template"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

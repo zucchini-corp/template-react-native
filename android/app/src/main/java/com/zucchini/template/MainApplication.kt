@@ -1,4 +1,4 @@
-package com.tomorrowdiary
+package com.zucchini.template
 
 import android.app.Application
 import com.facebook.react.PackageList
