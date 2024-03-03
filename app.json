@@ -2,8 +2,8 @@
   "name": "template",
   "displayName": "template",
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-8180937287925946~6061437273",
-    "ios_app_id": "ca-app-pub-8180937287925946~9582767933",
+    "android_app_id": "<Empty>",
+    "ios_app_id": "<Empty>",
     "user_tracking_usage_description": "This identifier will be used to deliver personalized ads to you.",
     "sk_ad_network_items": [
       "cstr6suwn9.skadnetwork",

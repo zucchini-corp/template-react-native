@@ -1,9 +1,11 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Screen from '@/screens/_/index';
+import LoadingScreen from '@/screens/LoadingScreen';
+import LoginScreen from '@/screens/LoginScreen';
 
 export type RootStackParamList = {
-  Screen: {};
+  LoadingScreen?: {};
+  LoginScreen?: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -11,8 +13,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const RootNavigator = () => (
   <Stack.Navigator
     screenOptions={{headerShown: false}}
-    initialRouteName="Screen">
-    <Stack.Screen name="Screen" component={Screen} />
+    initialRouteName="LoadingScreen">
+    <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
+    <Stack.Screen name="LoginScreen" component={LoginScreen} />
   </Stack.Navigator>
 );
 

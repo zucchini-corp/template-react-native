@@ -1,0 +1,12 @@
+{
+  "loginscreen-subtitle": "<Empty>",
+  "loginscreen-title": "<Empty>",
+  "loginscreen-continueWithGoogle": "Sign in with Google",
+  "loginscreen-continueWithApple": "Sign in with Apple",
+  "loginscreen-continueWithGuest": "Sign in with Guest",
+  "loginscreen-privacyAndTermsOfUse": "By continuing, you agree to the <#1Terms of Use> and <#2Privacy Policy>",
+  "loginscreen-privacyLink": "https://sites.google.com/view/<Empty>",
+  "loginscreen-termsOfUseLink": "https://sites.google.com/view/<Empty>",
+
+  "-": "-"
+}
