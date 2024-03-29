@@ -1,22 +1,44 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoadingScreen from '@/screens/LoadingScreen';
-import LoginScreen from '@/screens/LoginScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import HomeScreen from '@/screens/HomeScreen';
+import OnboardingScreen from '@/screens/OnboardingScreen';
 
-export type RootStackParamList = {
-  LoadingScreen?: {};
-  LoginScreen?: {};
+export type MainDrawerParamList = {
+  HomeScreen?: {};
 };
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const RootNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{headerShown: false}}
-    initialRouteName="LoadingScreen">
-    <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
-    <Stack.Screen name="LoginScreen" component={LoginScreen} />
-  </Stack.Navigator>
+const MainDrawer = createDrawerNavigator<MainDrawerParamList>();
+const MainDrawerNavigator = () => (
+  <MainDrawer.Navigator
+    // drawerContent={DrawerContents}
+    screenOptions={{
+      headerShown: false,
+      // drawerStyle: {
+      //   width: Dimensions.get('window').width - wp(48),
+      // },
+    }}
+    // initialRouteName="CreateTaskGroupScreen"
+  >
+    <MainDrawer.Screen name="HomeScreen" component={HomeScreen} />
+  </MainDrawer.Navigator>
 );
 
-export default RootNavigator;
+export type RootStackParamList = {
+  LoginScreen?: {};
+  OnboardingScreen?: {};
+  MainDrawerNavigator?: {};
+};
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+const RootStackNavigator = () => (
+  <RootStack.Navigator
+    screenOptions={{headerShown: false}}
+    initialRouteName="OnboardingScreen">
+    <RootStack.Screen name="OnboardingScreen" component={OnboardingScreen} />
+    <RootStack.Screen
+      name="MainDrawerNavigator"
+      component={MainDrawerNavigator}
+    />
+  </RootStack.Navigator>
+);
+
+export default RootStackNavigator;
