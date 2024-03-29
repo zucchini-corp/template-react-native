@@ -5,6 +5,7 @@ import {NativeModules, Platform} from 'react-native';
 import translation from '@/translation';
 import {RecoilRoot} from 'recoil';
 import notifee from '@notifee/react-native';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 let locale =
   Platform.OS === 'ios'
@@ -16,14 +17,18 @@ if (locale.indexOf('_') !== -1) {
 }
 translation.changeLanguage(locale);
 
+const queryClient = new QueryClient();
+
 function App(): React.JSX.Element {
   notifee.requestPermission();
   return (
-    <RecoilRoot>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 
