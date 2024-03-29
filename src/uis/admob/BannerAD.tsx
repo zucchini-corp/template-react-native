@@ -6,7 +6,7 @@ const unitID =
   Platform.select({
     ios: '<Empty>',
     android: '<Empty>',
-  }) || '';
+  }) ?? '';
 
 const adUnitId = __DEV__ ? TestIds.BANNER : unitID;
 
@@ -19,7 +19,7 @@ interface AdmobProps {
   type: string;
 }
 
-const Admob = ({type}: AdmobProps) => {
+const BannerAD = ({type}: AdmobProps) => {
   return (
     <View style={[styles.admob]}>
       <BannerAd
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default Admob;
+export default BannerAD;

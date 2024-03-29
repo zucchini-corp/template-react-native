@@ -10,7 +10,7 @@ const unitID =
   Platform.select({
     ios: '<Empty>',
     android: '<Empty>',
-  }) || '';
+  }) ?? '';
 
 const adUnitId = __DEV__ ? TestIds.REWARDED_INTERSTITIAL : unitID;
 
