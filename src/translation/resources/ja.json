@@ -1,12 +1,10 @@
 {
-  "loginscreen-subtitle": "<Empty>",
-  "loginscreen-title": "<Empty>",
-  "loginscreen-continueWithGoogle": "Googleでサインイン",
-  "loginscreen-continueWithApple": "Appleでサインイン",
-  "loginscreen-continueWithGuest": "Guestでログイン",
-  "loginscreen-privacyAndTermsOfUse": "継続することにより、<#1利用約款>及び「<#2個人情報処理方針」>に同意します。",
-  "loginscreen-privacyLink": "https://sites.google.com/view/<Empty>",
-  "loginscreen-termsOfUseLink": "https://sites.google.com/view/<Empty>",
+  "ob-continueWithGoogle": "Googleでサインイン",
+  "ob-continueWithApple": "Appleでサインイン",
+  "ob-continueWithGuest": "Guestでログイン",
+  "ob-privacyAndTermsOfUse": "継続することにより、<#1利用約款>及び「<#2個人情報処理方針」>に同意します。",
+  "ob-privacyLink": "https://sites.google.com/view/zucchini-documents-en",
+  "ob-termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use-en",
 
   "-": "-"
 }

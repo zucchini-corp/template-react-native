@@ -1,12 +1,10 @@
 {
-  "loginscreen-subtitle": "<Empty>",
-  "loginscreen-title": "<Empty>",
-  "loginscreen-continueWithGoogle": "Google로 계속하기",
-  "loginscreen-continueWithApple": "Apple로 계속하기",
-  "loginscreen-continueWithGuest": "게스트로 둘러보기",
-  "loginscreen-privacyAndTermsOfUse": "계속함으로써 <#1이용약관> 및 <#2개인정보처리방침>에 동의합니다.",
-  "loginscreen-privacyLink": "https://sites.google.com/view/<Empty>",
-  "loginscreen-termsOfUseLink": "https://sites.google.com/view/<Empty>",
+  "ob-continueWithGoogle": "Google로 로그인",
+  "ob-continueWithApple": "Apple로 로그인",
+  "ob-continueWithGuest": "게스트로 로그인",
+  "ob-privacyAndTermsOfUse": "계속함으로써 <#1이용약관> 및 <#2개인정보처리방침>에 동의합니다.",
+  "ob-privacyLink": "https://sites.google.com/view/zucchini-documents",
+  "ob-termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use",
 
   "-": "-"
 }

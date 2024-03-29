@@ -1,12 +1,10 @@
 {
-  "loginscreen-subtitle": "<Empty>",
-  "loginscreen-title": "<Empty>",
-  "loginscreen-continueWithGoogle": "Sign in with Google",
-  "loginscreen-continueWithApple": "Sign in with Apple",
-  "loginscreen-continueWithGuest": "Sign in with Guest",
-  "loginscreen-privacyAndTermsOfUse": "By continuing, you agree to the <#1Terms of Use> and <#2Privacy Policy>",
-  "loginscreen-privacyLink": "https://sites.google.com/view/<Empty>",
-  "loginscreen-termsOfUseLink": "https://sites.google.com/view/<Empty>",
+  "ob-continueWithGoogle": "Sign in with Google",
+  "ob-continueWithApple": "Sign in with Apple",
+  "ob-continueWithGuest": "Sign in with Guest",
+  "ob-privacyAndTermsOfUse": "By continuing, you agree to the <#1Terms of Use> and <#2Privacy Policy>",
+  "ob-privacyLink": "https://sites.google.com/view/zucchini-documents-en",
+  "ob-termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use-en",
 
   "-": "-"
 }
