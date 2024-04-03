@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '@/screens/HomeScreen';
 import OnboardingScreen from '@/screens/OnboardingScreen';
+import DrawerContents from '@/uis/DrawerContents';
 
 export type MainDrawerParamList = {
   HomeScreen?: {};
@@ -10,7 +11,7 @@ export type MainDrawerParamList = {
 const MainDrawer = createDrawerNavigator<MainDrawerParamList>();
 const MainDrawerNavigator = () => (
   <MainDrawer.Navigator
-    // drawerContent={DrawerContents}
+    drawerContent={DrawerContents}
     screenOptions={{
       headerShown: false,
       // drawerStyle: {

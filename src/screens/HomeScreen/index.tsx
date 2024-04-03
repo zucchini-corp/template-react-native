@@ -17,6 +17,7 @@ import usePopup from '@/uis/Popup/usePopup';
 import BottomSheet from '@/uis/BottomSheet';
 import useBottomSheet from '@/uis/BottomSheet/useBottomSheet';
 import List from '@/uis/List';
+import {DrawerActions} from '@react-navigation/native';
 
 const CustomPopup = ({
   data = {text: ''},
@@ -100,6 +101,14 @@ const HomeScreen = ({navigation, route}: ScreenProps) => {
 
   return (
     <SafeAreaView style={styles.screen}>
+      <View style={styles.test}>
+        <Text style={styles.test__title}>헤더 - 드로워</Text>
+        <TouchableOpacity
+          style={styles.test__button}
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+          <Text style={styles.test__title}>드로워 열기</Text>
+        </TouchableOpacity>
+      </View>
       <View style={{height: 400, width: '100%'}}>
         <Text style={styles.test__title}>컴포넌트 - 리스트</Text>
         <List<number>
