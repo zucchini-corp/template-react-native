@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {LayoutChangeEvent, StyleSheet} from 'react-native';
 import Animated, {
+  scrollTo,
+  useAnimatedReaction,
+  useAnimatedRef,
   useAnimatedScrollHandler,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -31,13 +34,18 @@ const List = <T,>({
     pageX: 0,
     pageY: 0,
   });
+  const scrolling = useSharedValue(false);
   const scrollOffset = useSharedValue(0);
-  const handleScroll = useAnimatedScrollHandler(event => {
-    scrollOffset.value = event.contentOffset.y;
-  });
-
   const listOfItemOrder = useSharedValue(
     new Array(items.length).fill(0).map((o, i) => i),
+  );
+
+  const scrollViewRef = useAnimatedRef<Animated.ScrollView>();
+  useAnimatedReaction(
+    () => scrollOffset.value,
+    _scrolling => {
+      scrollTo(scrollViewRef, 0, _scrolling, false);
+    },
   );
 
   const updateListOfItemOrder = (
@@ -69,32 +77,37 @@ const List = <T,>({
     // console.log('listOfItemOrder.value - ', listOfItemOrder.value);
   };
 
+  const handleScroll = useAnimatedScrollHandler(event => {
+    scrollOffset.value = event.contentOffset.y;
+  });
+
+  const handleLayout = (e: LayoutChangeEvent) => {
+    e.target.measure((x, y, width, height, pageX, pageY) => {
+      setScrollViewMeasureState({x, y, width, height, pageX, pageY});
+    });
+  };
+
   return (
     <Animated.ScrollView
       style={styles.scrollView}
+      ref={scrollViewRef}
       onScroll={handleScroll}
-      onLayout={e => {
-        e.target.measure((x, y, width, height, pageX, pageY) => {
-          setScrollViewMeasureState({x, y, width, height, pageX, pageY});
-        });
-      }}
+      onLayout={handleLayout}
       contentContainerStyle={[
         styles.scrollView__container,
-        {
-          height: itemHeight * items.length,
-        },
+        {height: itemHeight * items.length},
       ]}>
       {items.map((item, i) => (
         <Item
           key={i}
           itemHeight={itemHeight}
+          scrolling={scrolling}
           scrollOffset={scrollOffset}
+          scrollContainerHeight={itemHeight * items.length}
           scrollViewMeasureState={scrollViewMeasureState}
           index={i}
           listOfItemOrder={listOfItemOrder}
-          updateListOfItemOrder={absoluteY =>
-            updateListOfItemOrder(i, absoluteY)
-          }>
+          updateListOfItemOrder={updateListOfItemOrder}>
           {renderItem(item)}
         </Item>
       ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
+import {LayoutChangeEvent, StyleSheet} from 'react-native';
 import Animated, {
   SharedValue,
   runOnJS,
@@ -13,7 +13,9 @@ import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 interface ItemProps {
   index: number;
   itemHeight: number;
+  scrolling: SharedValue<boolean>;
   scrollOffset: SharedValue<number>;
+  scrollContainerHeight: number;
   scrollViewMeasureState: {
     x: number;
     y: number;
@@ -23,7 +25,7 @@ interface ItemProps {
     pageX: number;
   };
   listOfItemOrder: SharedValue<number[]>;
-  updateListOfItemOrder: (absoluteY: number) => void;
+  updateListOfItemOrder: (index: number, absoluteY: number) => void;
   onLayout?: (e: LayoutChangeEvent) => void;
   children?: React.ReactNode;
 }
@@ -31,7 +33,9 @@ interface ItemProps {
 const Item = ({
   index,
   itemHeight = 0,
+  scrolling,
   scrollOffset,
+  scrollContainerHeight,
   scrollViewMeasureState,
   listOfItemOrder,
   updateListOfItemOrder,
@@ -61,6 +65,24 @@ const Item = ({
       zIndex: pressed.value ? 999 : 0,
     };
   }, []);
+  const moveOffset = itemHeight / 5;
+  const onTop = () => {
+    scrolling.value = true;
+    for (let i = 0; i < 2; i++) {
+      scrollOffset.value = Math.max(scrollOffset.value - moveOffset, 0);
+    }
+    scrolling.value = false;
+  };
+  const onBottom = () => {
+    scrolling.value = true;
+    for (let i = 0; i < 2; i++) {
+      scrollOffset.value = Math.min(
+        scrollOffset.value + moveOffset,
+        scrollContainerHeight - scrollViewMeasureState.height,
+      );
+    }
+    scrolling.value = false;
+  };
   const pan = Gesture.Pan()
     .activateAfterLongPress(500)
     .maxPointers(1)
@@ -68,13 +90,25 @@ const Item = ({
       pressed.value = true;
     })
     .onUpdate(event => {
-      const dy =
-        event.absoluteY -
-        scrollViewMeasureState.pageY -
-        itemHeight / 2 +
-        scrollOffset.value;
+      const _dy_fromContainer = event.absoluteY - scrollViewMeasureState.pageY;
+      const _dy_halfOfItem = itemHeight / 2;
+      const _dy_scrollOffset = scrollOffset.value;
+
+      const dy = _dy_fromContainer - _dy_halfOfItem + _dy_scrollOffset;
       top.value = dy;
-      runOnJS(updateListOfItemOrder)(dy);
+
+      const isNotScrolling = !scrolling.value;
+      if (isNotScrolling) {
+        const scrollDownPoint = scrollViewMeasureState.height - itemHeight;
+        if (_dy_fromContainer > scrollDownPoint) {
+          runOnJS(onBottom)();
+        }
+        const scrollUpPoint = itemHeight;
+        if (_dy_fromContainer < scrollUpPoint) {
+          runOnJS(onTop)();
+        }
+      }
+      runOnJS(updateListOfItemOrder)(index, dy);
     })
     .onEnd(() => {
       pressed.value = false;
