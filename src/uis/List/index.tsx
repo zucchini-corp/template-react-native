@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text} from 'react-native';
 import Animated, {
   SharedValue,
   runOnJS,
@@ -16,47 +16,32 @@ interface ListProps<T> {
 }
 
 interface ItemProps {
-  order: number;
-  orderOfPressedItem: SharedValue<number>;
-  updateOrderOfPressedItem: (absoluteY: number) => void;
+  index: number;
+  listOfItemOrder: SharedValue<number[]>;
+  updateListOfItemOrder: (absoluteY: number) => void;
 }
 
 const ITEM_HEIGHT = 60;
-const Item = ({
-  order,
-  orderOfPressedItem,
-  updateOrderOfPressedItem,
-}: ItemProps) => {
+const Item = ({index, listOfItemOrder, updateListOfItemOrder}: ItemProps) => {
   const pressed = useSharedValue(false);
-  const translateY = useSharedValue(0);
+  const top = useSharedValue(ITEM_HEIGHT * index);
 
   // Case 1) 정지되어 있는 아이템
-  const moveUp = () => {
-    translateY.value = withTiming(-ITEM_HEIGHT);
-  };
-  const moveOrigin = () => {
-    translateY.value = withTiming(0);
-  };
-  const moveDown = () => {
-    translateY.value = withTiming(ITEM_HEIGHT);
-  };
   useAnimatedReaction(
-    () => orderOfPressedItem.value,
+    () => listOfItemOrder.value[index],
     (prev, next) => {
       if (prev !== next) {
         if (!pressed.value) {
-          console.log('움직이는 아이템 순서 - ', orderOfPressedItem.value);
-          // runOnJS(moveDown)();
+          top.value = withTiming(listOfItemOrder.value[index] * ITEM_HEIGHT);
         }
       }
-      // runOnJS(moveOrigin)();
     },
   );
 
   // Case 2) 움직이는 아이템
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{translateY: translateY.value}],
+      top: top.value,
       backgroundColor: pressed.value ? '#eee' : '#fff',
       zIndex: pressed.value ? 999 : 0,
     };
@@ -67,36 +52,61 @@ const Item = ({
       pressed.value = true;
     })
     .onUpdate(event => {
-      // console.log('event.absoluteY - ', event.absoluteY);
-      // console.log('event.translationY - ', event.translationY);
-      translateY.value = event.translationY;
-      runOnJS(updateOrderOfPressedItem)(event.absoluteY);
+      top.value = event.absoluteY;
+      runOnJS(updateListOfItemOrder)(event.absoluteY);
     })
     .onEnd(() => {
       pressed.value = false;
-      translateY.value = 0;
-      // runOnJS(moveUp)();
+      top.value = listOfItemOrder.value[index] * ITEM_HEIGHT;
     });
 
   return (
     <GestureDetector gesture={pan}>
       <Animated.View
         style={[
-          {height: ITEM_HEIGHT, backgroundColor: '#ffeeee'},
+          {
+            position: 'absolute',
+            width: '100%',
+            height: ITEM_HEIGHT,
+            backgroundColor: '#ffeeee',
+          },
           animatedStyle,
         ]}>
-        <Text>Item = {order}</Text>
+        <Text>Item - {index}</Text>
       </Animated.View>
     </GestureDetector>
   );
 };
 
 const List = <T,>({items}: ListProps<T>) => {
-  const orderOfPressedItem = useSharedValue(0);
+  const listOfItemOrder = useSharedValue(
+    new Array(items.length).fill(0).map((o, i) => i),
+  );
 
-  const updateOrderOfPressedItem = (absoluteYOfPressedItem: number) => {
-    const order = Math.round(absoluteYOfPressedItem / ITEM_HEIGHT);
-    orderOfPressedItem.value = _.clamp(order, 0, items.length - 1);
+  const updateListOfItemOrder = (
+    index: number,
+    absoluteYOfPressedItem: number,
+  ) => {
+    console.log('updateListOfItemOrder');
+    let newListOfItemOrder = listOfItemOrder.value;
+    const order = _.clamp(
+      Math.round(absoluteYOfPressedItem / ITEM_HEIGHT),
+      0,
+      items.length - 1,
+    );
+    if (newListOfItemOrder[index] !== order) {
+      console.log('이동합니다.', newListOfItemOrder[index], ' -> ', order);
+      newListOfItemOrder = newListOfItemOrder.map(orderOfItem => {
+        if (orderOfItem === order) {
+          return newListOfItemOrder[index];
+        } else {
+          return orderOfItem;
+        }
+      });
+    }
+    newListOfItemOrder[index] = order;
+    listOfItemOrder.value = newListOfItemOrder;
+    console.log('listOfItemOrder.value - ', listOfItemOrder.value);
   };
 
   return (
@@ -104,14 +114,16 @@ const List = <T,>({items}: ListProps<T>) => {
       style={styles.scrollView}
       contentContainerStyle={[
         styles.scrollView__container,
-        {height: ITEM_HEIGHT * items.length},
+        {height: ITEM_HEIGHT * items.length, position: 'relative'},
       ]}>
       {items.map((item, i) => (
         <Item
           key={i}
-          order={i}
-          orderOfPressedItem={orderOfPressedItem}
-          updateOrderOfPressedItem={updateOrderOfPressedItem}
+          index={i}
+          listOfItemOrder={listOfItemOrder}
+          updateListOfItemOrder={absoluteY =>
+            updateListOfItemOrder(i, absoluteY)
+          }
         />
       ))}
     </Animated.ScrollView>
