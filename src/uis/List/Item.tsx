@@ -1,14 +1,19 @@
-import React from 'react';
-import {LayoutChangeEvent, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   SharedValue,
   runOnJS,
+  scrollTo,
   useAnimatedReaction,
+  useAnimatedRef,
+  useAnimatedScrollHandler,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import _ from 'lodash';
 
 interface ItemProps {
   index: number;
@@ -117,11 +122,71 @@ const Item = ({
       runOnJS(onMoveEnd)();
     });
 
+  // Case 3) 스와이프 가능한 아이템
+  const buttonContainerWidth = 200;
+  const [width, setWidth] = useState(0);
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const handler = useAnimatedScrollHandler(
+    {
+      onMomentumEnd: e => {
+        console.log('onMomentumEnd', e.contentOffset.x);
+        const isActive =
+          Math.round(e.contentOffset.x / buttonContainerWidth) === 1;
+        if (isActive) {
+          scrollTo(scrollRef, 0, 0, true);
+        } else {
+          scrollTo(scrollRef, buttonContainerWidth, 0, true);
+        }
+      },
+      onEndDrag: e => {
+        console.log('onEndDrag', e.contentOffset.x);
+        const isActive =
+          Math.round(e.contentOffset.x / buttonContainerWidth) === 1;
+        if (isActive) {
+          scrollTo(scrollRef, buttonContainerWidth, 0, true);
+        } else {
+          scrollTo(scrollRef, 0, 0, true);
+        }
+      },
+    },
+    [],
+  );
   return (
     <GestureDetector gesture={pan}>
-      <Animated.View style={[styles.item, animatedStyle]}>
-        {children}
-      </Animated.View>
+      <Animated.ScrollView
+        ref={scrollRef}
+        style={[styles.item, animatedStyle]}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        onLayout={e => {
+          setWidth(e.nativeEvent.layout.width);
+        }}
+        onScroll={handler}>
+        <View style={{width, height: '100%'}}>{children}</View>
+        <View
+          style={{
+            height: '100%',
+            width: buttonContainerWidth,
+            flexDirection: 'row',
+          }}>
+          <View
+            style={{
+              height: '100%',
+              width: 100,
+              backgroundColor: 'pink',
+            }}>
+            <Text>버튼 1</Text>
+          </View>
+          <View
+            style={{
+              height: '100%',
+              width: 100,
+              backgroundColor: 'aqua',
+            }}>
+            <Text>버튼 2</Text>
+          </View>
+        </View>
+      </Animated.ScrollView>
     </GestureDetector>
   );
 };
