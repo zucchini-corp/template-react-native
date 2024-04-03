@@ -17,8 +17,6 @@ import usePopup from '@/uis/Popup/usePopup';
 import BottomSheet from '@/uis/BottomSheet';
 import useBottomSheet from '@/uis/BottomSheet/useBottomSheet';
 import List from '@/uis/List';
-import DraggableList from '@/uis/List/DraggableList';
-import DraggableListView from '@/uis/List/DraggableListView';
 
 const CustomPopup = ({
   data = {text: ''},
@@ -102,27 +100,18 @@ const HomeScreen = ({navigation, route}: ScreenProps) => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      {/* <DraggableListView
-        items={[
-          {id: '1'},
-          {id: '2'},
-          {id: '3'},
-          {id: '4'},
-          {id: '5'},
-          {id: '6'},
-          {id: '7'},
-          {id: '8'},
-          {id: '9'},
-          {id: '10'},
-          {id: '11'},
-          {id: '12'},
-          {id: '13'},
-          {id: '14'},
-          {id: '15'},
-        ]}
-      /> */}
-      <List items={[0, 1, 2, 3, 4, 5]} />
-      {/* <ScrollView style={{flex: 1}}>
+      <View style={{height: 400, width: '100%'}}>
+        <Text style={styles.test__title}>컴포넌트 - 리스트</Text>
+        <List<number>
+          itemHeight={80}
+          items={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+          renderItem={item => <Text>아이템 - {item}</Text>}
+          onChangeOrders={arrayOfItemWithOrder => {
+            console.log('arrayOfItemWithOrder', arrayOfItemWithOrder);
+          }}
+        />
+      </View>
+      <ScrollView style={{flex: 1}}>
         <View style={styles.test}>
           <Text style={styles.test__title}>
             컴포넌트 - 애드몹: 고정 사이즈 배너
@@ -174,7 +163,7 @@ const HomeScreen = ({navigation, route}: ScreenProps) => {
             onConfirm={bottomSheet.confirm}
           />
         </View>
-      </ScrollView> */}
+      </ScrollView>
     </SafeAreaView>
   );
 };
