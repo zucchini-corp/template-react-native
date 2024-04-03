@@ -70,9 +70,6 @@ const List = <T,>({
       });
       newListOfItemOrder[index] = order;
       listOfItemOrder.value = newListOfItemOrder;
-      onChangeOrders(
-        newListOfItemOrder.map((o, i) => ({item: items[i], order: o})),
-      );
     }
     // console.log('listOfItemOrder.value - ', listOfItemOrder.value);
   };
@@ -107,7 +104,15 @@ const List = <T,>({
           scrollViewMeasureState={scrollViewMeasureState}
           index={i}
           listOfItemOrder={listOfItemOrder}
-          updateListOfItemOrder={updateListOfItemOrder}>
+          updateListOfItemOrder={updateListOfItemOrder}
+          onMoveEnd={() => {
+            onChangeOrders(
+              listOfItemOrder.value.map((order, orderIndex) => ({
+                item: items[orderIndex],
+                order,
+              })),
+            );
+          }}>
           {renderItem(item)}
         </Item>
       ))}

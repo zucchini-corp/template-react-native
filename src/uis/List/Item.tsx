@@ -26,7 +26,7 @@ interface ItemProps {
   };
   listOfItemOrder: SharedValue<number[]>;
   updateListOfItemOrder: (index: number, absoluteY: number) => void;
-  onLayout?: (e: LayoutChangeEvent) => void;
+  onMoveEnd: () => void;
   children?: React.ReactNode;
 }
 
@@ -39,6 +39,7 @@ const Item = ({
   scrollViewMeasureState,
   listOfItemOrder,
   updateListOfItemOrder,
+  onMoveEnd,
   children,
 }: ItemProps) => {
   const styles = useStyles(itemHeight);
@@ -113,6 +114,7 @@ const Item = ({
     .onEnd(() => {
       pressed.value = false;
       top.value = listOfItemOrder.value[index] * itemHeight;
+      runOnJS(onMoveEnd)();
     });
 
   return (
