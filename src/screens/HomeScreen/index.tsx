@@ -102,6 +102,9 @@ const HomeScreen = ({navigation, route}: ScreenProps) => {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.test}>
+        <Text style={{fontSize: wp(40), fontFamily: 'RubikScribble_Regular'}}>
+          FontFamily
+        </Text>
         <Text style={styles.test__title}>헤더 - 드로워</Text>
         <TouchableOpacity
           style={styles.test__button}
