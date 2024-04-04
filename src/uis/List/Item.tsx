@@ -139,25 +139,26 @@ const Item = ({
         const isActive =
           scrollX.value === 0 &&
           e.contentOffset.x > 0 &&
-          e.contentOffset.x < buttonContainerWidth / 2;
+          e.contentOffset.x < buttonContainerWidth;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
           scrollTo(scrollRef, 0, 0, true);
         }
+        scrollX.value = e.contentOffset.x;
       },
       onEndDrag: e => {
-        console.log('onEndDrag', e.contentOffset.x);
-        console.log('onEndDrag', scrollX.value);
+        console.log('onMomentumEnd', e.contentOffset.x);
         const isActive =
           scrollX.value === 0 &&
           e.contentOffset.x > 0 &&
-          e.contentOffset.x < buttonContainerWidth / 2;
+          e.contentOffset.x < buttonContainerWidth;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
           scrollTo(scrollRef, 0, 0, true);
         }
+        scrollX.value = e.contentOffset.x;
       },
     },
     [],
