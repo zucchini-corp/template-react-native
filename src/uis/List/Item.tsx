@@ -122,15 +122,24 @@ const Item = ({
     });
 
   // Case 3) 스와이프 가능한 아이템
-  const buttonContainerWidth = 200;
+  const [buttonContainerWidth, setButtonContainerWidth] = useState(0);
   const [width, setWidth] = useState(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollX = useSharedValue(0);
   const handler = useAnimatedScrollHandler(
     {
+      onBeginDrag: e => {
+        scrollX.value = e.contentOffset.x;
+      },
+      onMomentumBegin: e => {
+        scrollX.value = e.contentOffset.x;
+      },
       onMomentumEnd: e => {
         console.log('onMomentumEnd', e.contentOffset.x);
         const isActive =
-          e.contentOffset.x > 0 && e.contentOffset.x < buttonContainerWidth / 2;
+          scrollX.value === 0 &&
+          e.contentOffset.x > 0 &&
+          e.contentOffset.x < buttonContainerWidth / 2;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
@@ -139,8 +148,11 @@ const Item = ({
       },
       onEndDrag: e => {
         console.log('onEndDrag', e.contentOffset.x);
+        console.log('onEndDrag', scrollX.value);
         const isActive =
-          e.contentOffset.x > 0 && e.contentOffset.x < buttonContainerWidth / 2;
+          scrollX.value === 0 &&
+          e.contentOffset.x > 0 &&
+          e.contentOffset.x < buttonContainerWidth / 2;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
@@ -163,9 +175,11 @@ const Item = ({
         onScroll={handler}>
         <View style={{width, height: '100%'}}>{children}</View>
         <View
+          onLayout={e => {
+            setButtonContainerWidth(e.nativeEvent.layout.width);
+          }}
           style={{
             height: '100%',
-            width: buttonContainerWidth,
             flexDirection: 'row',
           }}>
           <View
