@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/HomeScreen';
 import OnboardingScreen from '@/screens/OnboardingScreen';
 import DrawerContents from '@/uis/DrawerContents';
+import TabBar from '@/uis/TabBar';
 
 export type BottomTabParamList = {
   HomeScreen?: {};
@@ -12,6 +13,7 @@ export type BottomTabParamList = {
 const MainTab = createBottomTabNavigator<BottomTabParamList>();
 const MainTabNavigator = () => (
   <MainTab.Navigator
+    tabBar={TabBar}
     screenOptions={{
       headerShown: false,
     }}>
