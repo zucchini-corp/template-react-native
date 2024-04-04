@@ -11,11 +11,11 @@ const useScreen = ({navigation, route}: ScreenProps) => {
   const {t} = useTranslation();
 
   const handlePressSignInWithGoogleButton = () => {
-    navigation.replace('MainDrawerNavigator');
+    navigation.replace('Main');
   };
 
   const handlePressSignInWithAppleButton = () => {
-    navigation.replace('MainDrawerNavigator');
+    navigation.replace('Main');
   };
 
   const handlePressPrivacyLink = () => {
