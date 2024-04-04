@@ -148,7 +148,7 @@ const Item = ({
         }
       },
     },
-    [],
+    [buttonContainerWidth],
   );
   return (
     <GestureDetector gesture={pan}>
