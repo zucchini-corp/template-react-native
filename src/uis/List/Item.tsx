@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Animated, {
   SharedValue,
   runOnJS,
@@ -8,7 +8,6 @@ import Animated, {
   useAnimatedRef,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
@@ -131,17 +130,17 @@ const Item = ({
       onMomentumEnd: e => {
         console.log('onMomentumEnd', e.contentOffset.x);
         const isActive =
-          Math.round(e.contentOffset.x / buttonContainerWidth) === 1;
+          e.contentOffset.x > 0 && e.contentOffset.x < buttonContainerWidth / 2;
         if (isActive) {
-          scrollTo(scrollRef, 0, 0, true);
-        } else {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
+        } else {
+          scrollTo(scrollRef, 0, 0, true);
         }
       },
       onEndDrag: e => {
         console.log('onEndDrag', e.contentOffset.x);
         const isActive =
-          Math.round(e.contentOffset.x / buttonContainerWidth) === 1;
+          e.contentOffset.x > 0 && e.contentOffset.x < buttonContainerWidth / 2;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
