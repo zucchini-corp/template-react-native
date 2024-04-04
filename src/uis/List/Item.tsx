@@ -125,40 +125,27 @@ const Item = ({
   const [buttonContainerWidth, setButtonContainerWidth] = useState(0);
   const [width, setWidth] = useState(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
-  const scrollX = useSharedValue(0);
   const handler = useAnimatedScrollHandler(
     {
-      onBeginDrag: e => {
-        scrollX.value = e.contentOffset.x;
-      },
-      onMomentumBegin: e => {
-        scrollX.value = e.contentOffset.x;
-      },
       onMomentumEnd: e => {
         console.log('onMomentumEnd', e.contentOffset.x);
-        const isActive =
-          scrollX.value === 0 &&
-          e.contentOffset.x > 0 &&
-          e.contentOffset.x < buttonContainerWidth;
+        console.log('onMomentumEnd', e.velocity);
+        const isActive = (e.velocity?.x ?? 0) < 0;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
           scrollTo(scrollRef, 0, 0, true);
         }
-        scrollX.value = e.contentOffset.x;
       },
       onEndDrag: e => {
-        console.log('onMomentumEnd', e.contentOffset.x);
-        const isActive =
-          scrollX.value === 0 &&
-          e.contentOffset.x > 0 &&
-          e.contentOffset.x < buttonContainerWidth;
+        console.log('onEndDrag:x:', e.contentOffset.x);
+        console.log('onEndDrag:v', e.velocity);
+        const isActive = (e.velocity?.x ?? 0) < 0;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
           scrollTo(scrollRef, 0, 0, true);
         }
-        scrollX.value = e.contentOffset.x;
       },
     },
     [],
