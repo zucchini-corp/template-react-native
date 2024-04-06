@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import _ from 'lodash';
 import Item from './Item';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 interface ListProps<T> {
   items: T[];
@@ -85,38 +86,40 @@ const List = <T,>({
   };
 
   return (
-    <Animated.ScrollView
-      style={styles.scrollView}
-      ref={scrollViewRef}
-      onScroll={handleScroll}
-      onLayout={handleLayout}
-      contentContainerStyle={[
-        styles.scrollView__container,
-        {height: itemHeight * items.length},
-      ]}>
-      {items.map((item, i) => (
-        <Item
-          key={i}
-          itemHeight={itemHeight}
-          scrolling={scrolling}
-          scrollOffset={scrollOffset}
-          scrollContainerHeight={itemHeight * items.length}
-          scrollViewMeasureState={scrollViewMeasureState}
-          index={i}
-          listOfItemOrder={listOfItemOrder}
-          updateListOfItemOrder={updateListOfItemOrder}
-          onMoveEnd={() => {
-            onChangeOrders(
-              listOfItemOrder.value.map((order, orderIndex) => ({
-                item: items[orderIndex],
-                order,
-              })),
-            );
-          }}>
-          {renderItem(item)}
-        </Item>
-      ))}
-    </Animated.ScrollView>
+    <GestureHandlerRootView>
+      <Animated.ScrollView
+        style={styles.scrollView}
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        onLayout={handleLayout}
+        contentContainerStyle={[
+          styles.scrollView__container,
+          {height: itemHeight * items.length},
+        ]}>
+        {items.map((item, i) => (
+          <Item
+            key={i}
+            itemHeight={itemHeight}
+            scrolling={scrolling}
+            scrollOffset={scrollOffset}
+            scrollContainerHeight={itemHeight * items.length}
+            scrollViewMeasureState={scrollViewMeasureState}
+            index={i}
+            listOfItemOrder={listOfItemOrder}
+            updateListOfItemOrder={updateListOfItemOrder}
+            onMoveEnd={() => {
+              onChangeOrders(
+                listOfItemOrder.value.map((order, orderIndex) => ({
+                  item: items[orderIndex],
+                  order,
+                })),
+              );
+            }}>
+            {renderItem(item)}
+          </Item>
+        ))}
+      </Animated.ScrollView>
+    </GestureHandlerRootView>
   );
 };
 
@@ -131,7 +134,7 @@ const useStyles = (itemHeight: number) =>
       position: 'relative',
     },
     item: {
-      height: itemHeight,
+      height: itemHeight + 0.1, // 소수점 띄워지는 경우 보정
       borderBottomWidth: 1,
     },
   });
