@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {LayoutChangeEvent, StyleSheet} from 'react-native';
+import {
+  LayoutChangeEvent,
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+} from 'react-native';
 import Animated, {
   scrollTo,
   useAnimatedReaction,
@@ -13,18 +18,30 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 interface ListProps<T> {
   items: T[];
+  itemSpacing?: number;
+  itemStyle?: StyleProp<ViewStyle>;
+  itemContentStyle?: StyleProp<ViewStyle>;
+  itemOptionButtonContainerStyle?: StyleProp<ViewStyle>;
   itemHeight: number;
-  renderItem: (item: T) => React.ReactNode;
+  renderItem: (item: T, key: number) => React.ReactNode;
+  renderItemOptionButton?: (item: T) => React.ReactNode;
   onChangeOrders: (
     arrayOfItemWithOrder: Array<{item: T; order: number}>,
   ) => void;
+  swipable: boolean;
 }
 
 const List = <T,>({
   items,
+  itemSpacing = 0,
+  itemStyle,
+  itemContentStyle,
+  itemOptionButtonContainerStyle,
   itemHeight = 0,
   renderItem,
+  renderItemOptionButton,
   onChangeOrders,
+  swipable = true,
 }: ListProps<T>) => {
   const styles = useStyles(itemHeight);
   const [scrollViewMeasureState, setScrollViewMeasureState] = useState({
@@ -80,6 +97,7 @@ const List = <T,>({
   });
 
   const handleLayout = (e: LayoutChangeEvent) => {
+    console.log('Hi');
     e.target.measure((x, y, width, height, pageX, pageY) => {
       setScrollViewMeasureState({x, y, width, height, pageX, pageY});
     });
@@ -94,11 +112,20 @@ const List = <T,>({
         onLayout={handleLayout}
         contentContainerStyle={[
           styles.scrollView__container,
-          {height: itemHeight * items.length},
+          {
+            height: Math.max(
+              itemHeight * items.length,
+              scrollViewMeasureState.height,
+            ),
+          },
         ]}>
         {items.map((item, i) => (
           <Item
             key={i}
+            itemSpacing={itemSpacing}
+            itemStyle={itemStyle}
+            itemContentStyle={itemContentStyle}
+            itemOptionButtonContainerStyle={itemOptionButtonContainerStyle}
             itemHeight={itemHeight}
             scrolling={scrolling}
             scrollOffset={scrollOffset}
@@ -114,8 +141,12 @@ const List = <T,>({
                   order,
                 })),
               );
-            }}>
-            {renderItem(item)}
+            }}
+            renderItemOptionButton={() =>
+              renderItemOptionButton && renderItemOptionButton(item)
+            }
+            swipable={swipable}>
+            {renderItem(item, i)}
           </Item>
         ))}
       </Animated.ScrollView>
@@ -134,7 +165,7 @@ const useStyles = (itemHeight: number) =>
       position: 'relative',
     },
     item: {
-      height: itemHeight + 0.1, // 소수점 띄워지는 경우 보정
+      height: itemHeight,
       borderBottomWidth: 1,
     },
   });

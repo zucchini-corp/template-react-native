@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import Animated, {
   SharedValue,
   runOnJS,
@@ -12,10 +12,13 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import _ from 'lodash';
 
 interface ItemProps {
   index: number;
+  itemSpacing: number;
+  itemStyle?: StyleProp<ViewStyle>;
+  itemContentStyle?: StyleProp<ViewStyle>;
+  itemOptionButtonContainerStyle?: StyleProp<ViewStyle>;
   itemHeight: number;
   scrolling: SharedValue<boolean>;
   scrollOffset: SharedValue<number>;
@@ -32,10 +35,16 @@ interface ItemProps {
   updateListOfItemOrder: (index: number, absoluteY: number) => void;
   onMoveEnd: () => void;
   children?: React.ReactNode;
+  renderItemOptionButton?: () => React.ReactNode;
+  swipable?: boolean;
 }
 
 const Item = ({
   index,
+  itemSpacing,
+  itemStyle,
+  itemContentStyle,
+  itemOptionButtonContainerStyle,
   itemHeight = 0,
   scrolling,
   scrollOffset,
@@ -45,6 +54,8 @@ const Item = ({
   updateListOfItemOrder,
   onMoveEnd,
   children,
+  renderItemOptionButton,
+  swipable,
 }: ItemProps) => {
   const styles = useStyles(itemHeight);
   const pressed = useSharedValue(false);
@@ -66,7 +77,9 @@ const Item = ({
   const animatedStyle = useAnimatedStyle(() => {
     return {
       top: top.value,
-      backgroundColor: pressed.value ? '#eee' : '#fff',
+      // borderWidth: pressed.value ? 1 : 0,
+      // borderColor: '#eee',
+      // elevation: 3,
       zIndex: pressed.value ? 999 : 0,
     };
   }, []);
@@ -91,8 +104,15 @@ const Item = ({
   const pan = Gesture.Pan()
     .activateAfterLongPress(500)
     .maxPointers(1)
-    .onStart(() => {
+    .onStart(event => {
       pressed.value = true;
+
+      const _dy_fromContainer = event.absoluteY - scrollViewMeasureState.pageY;
+      const _dy_halfOfItem = itemHeight / 2;
+      const _dy_scrollOffset = scrollOffset.value;
+
+      const dy = _dy_fromContainer - _dy_halfOfItem + _dy_scrollOffset;
+      top.value = dy;
     })
     .onUpdate(event => {
       const _dy_fromContainer = event.absoluteY - scrollViewMeasureState.pageY;
@@ -122,15 +142,14 @@ const Item = ({
     });
 
   // Case 3) 스와이프 가능한 아이템
-  const [buttonContainerWidth, setButtonContainerWidth] = useState(0);
+  const [buttonContainerWidth, setButtonContainerWidth] = useState<number>(0);
   const [width, setWidth] = useState(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const handler = useAnimatedScrollHandler(
     {
       onMomentumEnd: e => {
-        console.log('onMomentumEnd', e.contentOffset.x);
-        console.log('onMomentumEnd', e.velocity);
-        const isActive = (e.velocity?.x ?? 0) < 0;
+        console.log('onEndDrag:x:', e.contentOffset.x);
+        const isActive = (e.velocity?.x ?? 0) <= 0;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
@@ -139,8 +158,7 @@ const Item = ({
       },
       onEndDrag: e => {
         console.log('onEndDrag:x:', e.contentOffset.x);
-        console.log('onEndDrag:v', e.velocity);
-        const isActive = (e.velocity?.x ?? 0) < 0;
+        const isActive = (e.velocity?.x ?? 0) <= 0;
         if (isActive) {
           scrollTo(scrollRef, buttonContainerWidth, 0, true);
         } else {
@@ -152,42 +170,51 @@ const Item = ({
   );
   return (
     <GestureDetector gesture={pan}>
-      <Animated.ScrollView
-        ref={scrollRef}
-        style={[styles.item, animatedStyle]}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        onLayout={e => {
-          setWidth(e.nativeEvent.layout.width);
-        }}
-        onScroll={handler}>
-        <View style={{width, height: '100%'}}>{children}</View>
-        <View
+      <Animated.View
+        style={[
+          styles.item,
+          itemStyle,
+          {height: itemHeight - itemSpacing},
+          animatedStyle,
+        ]}>
+        <Animated.ScrollView
+          ref={scrollRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{width: '100%'}}
           onLayout={e => {
-            setButtonContainerWidth(e.nativeEvent.layout.width);
+            console.log(e.nativeEvent.layout.width);
+            if (width === 0) {
+              setWidth(e.nativeEvent.layout.width);
+            }
           }}
-          style={{
-            height: '100%',
-            flexDirection: 'row',
-          }}>
+          onScroll={handler}
+          scrollEnabled={swipable}>
           <View
-            style={{
-              height: '100%',
-              width: 100,
-              backgroundColor: 'pink',
-            }}>
-            <Text>버튼 1</Text>
+            style={[
+              {
+                width,
+                height: '100%',
+              },
+              itemContentStyle,
+            ]}>
+            {children}
           </View>
           <View
-            style={{
-              height: '100%',
-              width: 100,
-              backgroundColor: 'aqua',
-            }}>
-            <Text>버튼 2</Text>
+            onLayout={e => {
+              setButtonContainerWidth(e.nativeEvent.layout.width);
+            }}
+            style={[
+              {
+                height: '100%',
+                flexDirection: 'row',
+              },
+              itemOptionButtonContainerStyle,
+            ]}>
+            {renderItemOptionButton && renderItemOptionButton()}
           </View>
-        </View>
-      </Animated.ScrollView>
+        </Animated.ScrollView>
+      </Animated.View>
     </GestureDetector>
   );
 };
@@ -198,8 +225,8 @@ const useStyles = (itemHeight: number) =>
   StyleSheet.create({
     item: {
       position: 'absolute',
-      width: '100%',
       height: itemHeight,
-      backgroundColor: '#ffeeee',
+      width: '100%',
+      overflow: 'hidden',
     },
   });
