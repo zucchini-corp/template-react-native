@@ -1,3 +1,4 @@
+import DeviceStore from '@/stores/DeviceStore';
 import React from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
@@ -20,14 +21,13 @@ interface AdmobProps {
 }
 
 const BannerAD = ({type}: AdmobProps) => {
+  const requestNonPersonalizedAdsOnly = !DeviceStore.getATT();
   return (
     <View style={[styles.admob]}>
       <BannerAd
         unitId={adUnitId}
         size={type}
-        requestOptions={{
-          requestNonPersonalizedAdsOnly: true,
-        }}
+        requestOptions={{requestNonPersonalizedAdsOnly}}
       />
     </View>
   );

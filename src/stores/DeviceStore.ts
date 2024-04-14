@@ -21,4 +21,19 @@ export default {
       return null;
     }
   },
+  setATT: (grantedATT: boolean) => {
+    if (grantedATT) {
+      storage.set('grantedATT', JSON.stringify(grantedATT));
+    } else {
+      storage.delete('grantedATT');
+    }
+  },
+  getATT: (): boolean => {
+    const grantedATT = storage.getBoolean('grantedATT');
+    if (grantedATT) {
+      return grantedATT;
+    } else {
+      return false;
+    }
+  },
 };

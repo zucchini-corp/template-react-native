@@ -1,10 +1,16 @@
 {
+  "privacyLink": "https://sites.google.com/view/zucchini-documents",
+  "termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use",
+  "supportLink": "https://sites.google.com/view/zucchini-contact-us",
+
   "ob-continueWithGoogle": "Google로 로그인",
   "ob-continueWithApple": "Apple로 로그인",
   "ob-continueWithGuest": "게스트로 로그인",
   "ob-privacyAndTermsOfUse": "계속함으로써 <#1이용약관> 및 <#2개인정보처리방침>에 동의합니다.",
-  "ob-privacyLink": "https://sites.google.com/view/zucchini-documents",
-  "ob-termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use",
+
+  "dr-privacy": "개인정보 처리방침",
+  "dr-termsOfUse": "서비스 이용약관",
+  "dr-support": "문의하기",
 
   "-": "-"
 }

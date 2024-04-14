@@ -1740,37 +1740,42 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
-"@react-native-firebase/app@^19.0.0":
-  version "19.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.0.0.tgz#a0368a46d7a142512a47bb645f0e7e4a604c5724"
-  integrity sha512-QcT4fJQjoEmvmRKDiEsLf5MBAgejlBGCAuAgXT/TBxE8/lrLubhlHVokodQvP0trjcVoA8L+HSEQFX2eIc3BPA==
+"@react-native-firebase/analytics@^19.1.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-19.2.2.tgz#baebf33fce5a0694919cf317b9a7f767c0d1adf0"
+  integrity sha512-0lxqiyDxa2mLg8E1Utbh5w92y8tc26710kbaElM8dZdTItexorB33nj6fzyCVuyzWEUUeHtmyAoepAPwGq+/sA==
+
+"@react-native-firebase/app@^19.1.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.2.2.tgz#71db0afdfaa41fff1fc75ce9f5c249eeeec393e3"
+  integrity sha512-yucIZT/n567XH+gU8Qf/Z8Awtrc0dadu0LYDJU/dq228DwoQa8xyCoDqXqVM2Ppj9R8csQ+ga4VdMYBSHblYQw==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^19.0.0":
-  version "19.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-19.0.0.tgz#7afccc524c93658d72d3acd4882eb898d3391ba2"
-  integrity sha512-ekpVuo+TwBr+9PVmRww/03tp3u2EzJBOLvfm5jihBvijYENjgrLQTULroeoY+VXyRC2Du34HcXHFlXx1yvxqgw==
+"@react-native-firebase/auth@^19.1.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-19.2.2.tgz#ec44f29c8a4427048db19a1c61df1415139d74fe"
+  integrity sha512-2TbbieNAmZSR3wqJZdQyFAT4vISESfvB3I3j/ll+3SS91fV2h0/H4xnBapoOEeXBGxioBGKXBOP3C4ySRXNV6g==
   dependencies:
     plist "^3.1.0"
 
-"@react-native-firebase/crashlytics@^19.0.0":
-  version "19.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-19.0.0.tgz#bf04aab9af26bda1d34c70f44008ecacd1db12d4"
-  integrity sha512-A+kF4h9y0rdwWPeAgMAAwQDJq4WErUTusmQAGiduBP95bdqscJum3c6cB/FMf+8EibVowt66LQBZr7ncVxSeOw==
+"@react-native-firebase/crashlytics@^19.1.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-19.2.2.tgz#828367d24e3eddbd35a04946653e50f60424c8fe"
+  integrity sha512-1dy8QkbFHNUVzlmU6zB99IQO/0rrWUHjiBJaOlWDYlVRoRuf/n7E/z2avpGqsYH52ujSfVhlYR2FBRXsVSzVcg==
   dependencies:
     stacktrace-js "^2.0.2"
 
-"@react-native-firebase/firestore@^19.0.0":
-  version "19.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-19.0.0.tgz#bdb94e72bd6e13d1a5176db477bec4597a71f1f5"
-  integrity sha512-GZWW1K3xcfs2hGipnACyDbEf49mtSUP3mEeiAZgAileXdGhPfj/uWTfSuTT/XImfepUF1+uhMKlaiGdiQJR8Mw==
+"@react-native-firebase/firestore@^19.1.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-19.2.2.tgz#15eb2be51af6b7c8e406f3c6d1444c99c43b8048"
+  integrity sha512-SaW/f8vDwvP24KdCBo7uaBmE+5Y8JMKfWpOzJtY1XXuA7wlua3IjIilEXNVGrFk8az6N3n9RhCIpWbn4mOml9g==
 
-"@react-native-google-signin/google-signin@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-11.0.0.tgz#b1732cf61758f8c6554adefd8cdc9a9f640df9b1"
-  integrity sha512-J8BFFGr5HcEWE2gRaVSJ0rQN8ztxYIr2wdWMG4PS1vhQZJqUzmRr6vpu12O1GppItq8ai7AA0rl/ja7hSytSXA==
+"@react-native-google-signin/google-signin@^11.0.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-11.0.1.tgz#1bff0c8f65d3b32eac1622f68293e94137b96360"
+  integrity sha512-ZRSEd1ME31XZ+azS3Qe6TRb8NRicGmtRdD1vT4Tz2birnlTfNfRgy4qLrEKNZyMUTodA6+J2UvA2JWwT8ZQ/dw==
 
 "@react-native/assets-registry@0.73.1":
   version "0.73.1"

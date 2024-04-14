@@ -1,3 +1,4 @@
+import DeviceStore from '@/stores/DeviceStore';
 import React, {useEffect} from 'react';
 import {Platform} from 'react-native';
 import {
@@ -15,9 +16,11 @@ const unitID =
 const adUnitId = __DEV__ ? TestIds.REWARDED_INTERSTITIAL : unitID;
 
 const RewardAD = () => {
+  const requestNonPersonalizedAdsOnly = !DeviceStore.getATT();
   useEffect(() => {
     const rewarded = RewardedInterstitialAd.createForAdRequest(adUnitId, {
       keywords: ['fashion', 'clothing', 'game'],
+      requestNonPersonalizedAdsOnly,
     });
     const eventListener = rewarded.addAdEventListener(
       RewardedAdEventType.LOADED,
@@ -30,6 +33,7 @@ const RewardAD = () => {
     return () => {
       eventListener();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <></>;

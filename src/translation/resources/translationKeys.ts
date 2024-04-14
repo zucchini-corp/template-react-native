@@ -1,12 +1,19 @@
 import _ from 'lodash';
 
 export const tk = {
+  // Common
+  privacyLink: 'privacyLink',
+  termsOfUseLink: 'termsOfUseLink',
+  supportLink: 'supportLink',
+  // Onboarding
   continueWithGoogle: 'ob-continueWithGoogle',
   continueWithApple: 'ob-continueWithApple',
   continueWithGuest: 'ob-continueWithGuest',
   privacyAndTermsOfUse: 'ob-privacyAndTermsOfUse',
-  privacyLink: 'ob-privacyLink',
-  termsOfUseLink: 'ob-termsOfUseLink',
+  // Drawer
+  privacy: 'dr-privacy',
+  termsOfUse: 'dr-termsOfUse',
+  support: 'dr-support',
 };
 
 export const validateTranslationKeys = (lang: string, json: any) => {

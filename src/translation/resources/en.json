@@ -1,10 +1,16 @@
 {
+  "privacyLink": "https://sites.google.com/view/zucchini-documents-en",
+  "termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use-en",
+  "supportLink": "https://sites.google.com/view/zucchini-contact-us",
+
   "ob-continueWithGoogle": "Sign in with Google",
   "ob-continueWithApple": "Sign in with Apple",
   "ob-continueWithGuest": "Sign in with Guest",
   "ob-privacyAndTermsOfUse": "By continuing, you agree to the <#1Terms of Use> and <#2Privacy Policy>",
-  "ob-privacyLink": "https://sites.google.com/view/zucchini-documents-en",
-  "ob-termsOfUseLink": "https://sites.google.com/view/zucchini-terms-of-use-en",
+
+  "dr-privacy": "Privacy Policy",
+  "dr-termsOfUse": "Terms of Use",
+  "dr-support": "Support",
 
   "-": "-"
 }
