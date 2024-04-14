@@ -1,36 +1,45 @@
 import React from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {hp, wp} from '@/assets/globalStyles';
+import {colors, hp, wp} from '@/assets/globalStyles';
+import Typo from '@/uis/Typo';
 
 interface PopupProps {
-  screenTestID?: string;
-  confirmButtonTestID?: string;
-  cancelButtonTestID?: string;
+  testIds?: {
+    screen?: string;
+    confirmButton?: string;
+    cancelButton?: string;
+  };
   visible?: boolean;
+  loading?: boolean;
   title?: string;
   cancelText?: string;
   onCancel?: () => void;
   confirmText?: string;
   onConfirm?: () => void;
+  disabledConfirmButton?: boolean;
+  removeText?: string;
+  onRemove?: () => void;
   children?: React.ReactNode;
 }
 
 const Popup = ({
-  screenTestID,
-  confirmButtonTestID,
-  cancelButtonTestID,
+  testIds,
   visible = false,
+  loading = false,
   title,
   cancelText,
   onCancel,
   confirmText,
   onConfirm,
+  disabledConfirmButton,
+  removeText,
+  onRemove,
   children,
 }: PopupProps) => {
   const styles = useStyles();
   return (
     <Modal
-      testID={screenTestID}
+      testID={testIds?.screen}
       visible={visible}
       onRequestClose={onCancel}
       transparent>
@@ -41,29 +50,46 @@ const Popup = ({
         <TouchableOpacity activeOpacity={1} style={styles.container}>
           {title && (
             <View style={styles.title}>
-              <Text style={styles.titleText}>{title}</Text>
+              <Typo style={styles.titleText} fontWeight="bold">
+                {title}
+              </Typo>
             </View>
           )}
           <View style={styles.body}>{children}</View>
           <View style={styles.buttonContainer}>
             {cancelText && (
               <TouchableOpacity
-                testID={cancelButtonTestID}
+                testID={testIds?.cancelButton}
                 style={[styles.button, styles.buttonCancel]}
                 onPress={onCancel}>
-                <Text style={[styles.buttonText, styles.buttonCancelText]}>
+                <Typo style={[styles.buttonText, styles.buttonCancelText]}>
                   {cancelText}
-                </Text>
+                </Typo>
+              </TouchableOpacity>
+            )}
+            {removeText && (
+              <TouchableOpacity
+                testID={testIds?.confirmButton}
+                style={[styles.button, styles.buttonCancel]}
+                onPress={onRemove}>
+                <Typo style={[styles.buttonText, styles.buttonCancelText]}>
+                  {removeText}
+                </Typo>
               </TouchableOpacity>
             )}
             {confirmText && (
               <TouchableOpacity
-                testID={confirmButtonTestID}
-                style={[styles.button, styles.buttonConfirm]}
+                testID={testIds?.confirmButton}
+                disabled={disabledConfirmButton}
+                style={[
+                  styles.button,
+                  styles.buttonConfirm,
+                  disabledConfirmButton && styles.buttonDisabled,
+                ]}
                 onPress={onConfirm}>
-                <Text style={[styles.buttonText, styles.buttonConfirmText]}>
+                <Typo style={[styles.buttonText, styles.buttonConfirmText]}>
                   {confirmText}
-                </Text>
+                </Typo>
               </TouchableOpacity>
             )}
           </View>
@@ -122,6 +148,9 @@ const useStyles = () =>
     buttonCancelText: {},
     buttonConfirm: {
       backgroundColor: '#212529',
+    },
+    buttonDisabled: {
+      backgroundColor: '#bbb',
     },
     buttonConfirmText: {
       color: '#f8f9fa',

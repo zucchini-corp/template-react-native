@@ -3,6 +3,7 @@ import {
   LayoutChangeEvent,
   StyleProp,
   StyleSheet,
+  View,
   ViewStyle,
 } from 'react-native';
 import Animated, {
@@ -25,6 +26,7 @@ interface ListProps<T> {
   itemHeight: number;
   renderItem: (item: T, key: number) => React.ReactNode;
   renderItemOptionButton?: (item: T) => React.ReactNode;
+  renderEmpty?: () => React.ReactNode;
   onChangeOrders: (
     arrayOfItemWithOrder: Array<{item: T; order: number}>,
   ) => void;
@@ -40,6 +42,7 @@ const List = <T,>({
   itemHeight = 0,
   renderItem,
   renderItemOptionButton,
+  renderEmpty,
   onChangeOrders,
   swipable = true,
 }: ListProps<T>) => {
@@ -114,7 +117,9 @@ const List = <T,>({
           styles.scrollView__container,
           {
             height: Math.max(
-              itemHeight * items.length,
+              renderEmpty
+                ? itemHeight * (items.length + 1)
+                : itemHeight * items.length,
               scrollViewMeasureState.height,
             ),
           },
@@ -149,6 +154,14 @@ const List = <T,>({
             {renderItem(item, i)}
           </Item>
         ))}
+        <View
+          style={{
+            position: 'absolute',
+            top: itemHeight * items.length,
+            width: '100%',
+          }}>
+          {renderEmpty && renderEmpty()}
+        </View>
       </Animated.ScrollView>
     </GestureHandlerRootView>
   );

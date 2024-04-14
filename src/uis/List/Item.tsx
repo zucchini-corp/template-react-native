@@ -183,7 +183,7 @@ const Item = ({
           showsHorizontalScrollIndicator={false}
           style={{width: '100%'}}
           onLayout={e => {
-            console.log(e.nativeEvent.layout.width);
+            // console.log(e.nativeEvent.layout.width);
             if (width === 0) {
               setWidth(e.nativeEvent.layout.width);
             }
