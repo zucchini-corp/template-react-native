@@ -43,6 +43,13 @@ const BottomSheet = ({
   const endPosition = 0;
   const limitPosition = 70;
 
+  const closed = () => {
+    onClosed();
+    setTimeout(() => {
+      y.value = height;
+    }, 200);
+  };
+
   const show = () => {
     y.value = withTiming(0);
   };
@@ -50,7 +57,7 @@ const BottomSheet = ({
   const hide = () => {
     y.value = withTiming(closePosition.value, undefined, isFinished => {
       if (isFinished) {
-        runOnJS(onClose)();
+        runOnJS(closed)();
       }
     });
   };
